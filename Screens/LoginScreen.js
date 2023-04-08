@@ -10,7 +10,7 @@ import {
     Keyboard,
     TouchableWithoutFeedback,
     Dimensions,
-    Image
+    ImageBackground
 } from "react-native"
 
 export default function LoginScreen() {
@@ -61,12 +61,13 @@ export default function LoginScreen() {
      }
     return (
         <TouchableWithoutFeedback onPress={closeKeyboard}>
+            <ImageBackground style={styles.image} source={require('../assets/images/PhotoBG.jpg')} >
         <View style={{...styles.container, flex: isShowKeyboard ? 0.65 : 0.6}}>
             <View style={styles.divText}><Text style={styles.text}>Війти</Text></View>
             <KeyboardAvoidingView style={{...styles.inputContainer}}
             behavior={Platform.OS == "ios" ? "padding" : "height"}
             >
-             <View>
+                    <View>
                             <TextInput style={{ ...styles.input, borderColor: inputBorderColorEmail }}
                         value={registration.email}
                         placeholder='Адреса електронної пошти'
@@ -90,8 +91,10 @@ export default function LoginScreen() {
             <TouchableOpacity style={{...styles.submitBtn, width: width -32}} activeOpacity={0.7} onPress ={submit}>
                 <Text style={styles.submitTitle}>Зареєструватися</Text>
             </TouchableOpacity>
-            <Text style={styles.askLogo}>Нема аккаунта? Зереєструватись</Text>
-            </View>
+                <Text style={styles.askLogo}>Нема аккаунта? Зереєструватись</Text>
+                
+                </View>
+                </ImageBackground>
             </TouchableWithoutFeedback>
     )
 }
@@ -149,4 +152,10 @@ const styles = StyleSheet.create({
         position: 'absolute',
         top:16,
     }, 
+    image: {
+        flex: 1,
+      justifyContent: 'center',
+      resizeMode: 'cover',
+      justifyContent:'flex-end'
+  },
 })

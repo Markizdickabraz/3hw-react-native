@@ -1,17 +1,28 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, View, ImageBackground } from 'react-native';
+import { createStackNavigator } from '@react-navigation/stack';
+import { NavigationContainer } from '@react-navigation/native';
 import LoginScreen from './Screens/LoginScreen';
 import RegistrationScreen from './Screens/RegistrationScreen';
+import PostScreen from './Screens/PostsScreen';
+import AddPost from './Screens/addPost';
 
 export default function App() {
+
+  const AuthStack = createStackNavigator();
+
   return (
-    <View style={styles.container}>
-      <ImageBackground style={styles.image} source={require('./assets/images/PhotoBG.jpg')} >
-        <RegistrationScreen></RegistrationScreen>
+    <NavigationContainer style={styles.container}>
+      <AuthStack.Navigator>
+      <AuthStack.Screen name="registr" component={RegistrationScreen} />
+      <AuthStack.Screen name="login" component={LoginScreen} />
+      </AuthStack.Navigator>
+        {/* <RegistrationScreen></RegistrationScreen> */}
         {/* <LoginScreen></LoginScreen> */}
-      </ImageBackground>
+      {/* <PostScreen /> */}
+      {/* <AddPost></AddPost> */}
       <StatusBar style="auto" />
-    </View>
+    </NavigationContainer>
   );
 }
 
@@ -21,11 +32,5 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     // alignItems: 'center',
     // justifyContent: 'center',
-  },
-    image: {
-    flex: 1,
-      justifyContent: 'center',
-      resizeMode: 'cover',
-      justifyContent:'flex-end'
   },
 });

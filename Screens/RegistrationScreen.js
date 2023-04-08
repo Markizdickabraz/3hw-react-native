@@ -11,6 +11,7 @@ import {
     TouchableWithoutFeedback,
     Dimensions,
     Image,
+    ImageBackground
 } from "react-native"
 import * as ImagePicker from 'expo-image-picker';
 
@@ -41,6 +42,8 @@ export default function RegistrationScreen() {
         }
     
     const width = Dimensions.get('window').width;
+    const height = Dimensions.get('window').height;
+
     const [isShowKeyboard, setIsShowKeyboard] = useState(false)
 
     const intialRegistration = {
@@ -48,7 +51,6 @@ export default function RegistrationScreen() {
         email: '', 
         pass: '',
     }
-
     
     const [registration, setRegistration] = useState(intialRegistration);
     
@@ -74,8 +76,9 @@ export default function RegistrationScreen() {
     }
  
     return (
-        <TouchableWithoutFeedback onPress={()=>{closeKeyboard()}}>
-        <View style={{...styles.container, flex: isShowKeyboard ? 0.8 : 0.67}}>
+        <TouchableWithoutFeedback onPress={() => { closeKeyboard() }}>
+      <ImageBackground style={styles.image} source={require('../assets/images/PhotoBG.jpg')} >
+        <View style={{...styles.container, flex: isShowKeyboard ? height * 0.8 : height * 0.67}}>
                 <View style={{ ...styles.photoContainer, left: (width - 120) / 2 }}>
                     <TouchableOpacity  onPress={pickImage} style={styles.iconContainer}>
                     {image && <Image source={{ uri: image }} style={{ width: 120, height: 120, borderRadius:16 }} />}
@@ -127,7 +130,8 @@ export default function RegistrationScreen() {
                 <Text style={styles.submitTitle}>Зареєструватися</Text>
             </TouchableOpacity>
             <Text style={styles.askLogo}>Уже есть аккаунт? Войти</Text>
-            </View>
+                </View>
+                </ImageBackground>
             </TouchableWithoutFeedback>
     )
 }
@@ -217,5 +221,11 @@ const styles = StyleSheet.create({
         width: 37,
         height: 37,
         resizeMode: 'cover'
-    }
+    },
+    image: {
+        flex: 1,
+      justifyContent: 'center',
+      resizeMode: 'cover',
+      justifyContent:'flex-end'
+  },
 })
