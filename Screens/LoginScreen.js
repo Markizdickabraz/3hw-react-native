@@ -10,38 +10,26 @@ import {
     Keyboard,
     TouchableWithoutFeedback,
     Dimensions,
-    ImageBackground
+    ImageBackground,
+    Button
 } from "react-native"
 
-export default function LoginScreen() {
+
+export default function LoginScreen({navigation}) {
     // console.log(Platform.OS)
     const width = Dimensions.get('window').width;
+
     const [isShowKeyboard, setIsShowKeyboard] = useState(false)
 
     const intialRegistration = {
         email: '', 
         pass: '',
     }
+
+        const [activeInput,setActiveInput]=useState('');
+
     const [registration, setRegistration] = useState(intialRegistration);
-     
-    const [inputBorderColorEmail, setInputBorderColorEmail] = useState('#f6f6f6');
-    const [inputBorderColorPass, setInputBorderColorPass] = useState('#f6f6f6')
-
-    const inputFocus = (e) => {
-        console.log(e.target)
-        const placeholder = e.target.placeholder;
-        setIsShowKeyboard(true)
-
-        switch (placeholder) {
-            case ('Адреса електронної пошти'):
-                setInputBorderColorEmail('#FF6C00')
-            case ('Пароль'):
-                setInputBorderColorPass('#FF6C00')
-            default:
-                setInputBorderColorEmail('#f6f6f6')
-                setInputBorderColorPass('#f6f6f6')
-        }
-    }
+    
     useEffect(() => {
         setIsShowKeyboard(false)
     }, [submit])
@@ -68,21 +56,27 @@ export default function LoginScreen() {
             behavior={Platform.OS == "ios" ? "padding" : "height"}
             >
                     <View>
-                            <TextInput style={{ ...styles.input, borderColor: inputBorderColorEmail }}
+                            <TextInput style={{ ...styles.input,borderColor:activeInput==='email'?'#FF6C00':'#f6f6f6' }}
                         value={registration.email}
                         placeholder='Адреса електронної пошти'
                         onChangeText={(value) => setRegistration((prevState) => ({ ...prevState, email: value }))}
-                                onFocus={inputFocus}
+                               onFocus={() => {
+                                        setActiveInput('email');
+                                        setIsShowKeyboard(true)
+                                }}
                                 placeholderTextColor ='#BDBDBD'  
                 />
             </View>
              <View>
-                            <TextInput style={{ ...styles.input, borderColor: inputBorderColorPass }}
+                            <TextInput style={{ ...styles.input, borderColor:activeInput==='pass'?'#FF6C00':'#f6f6f6'}}
                     value={registration.pass}
                     placeholder='Пароль'  
                     onChangeText={(value) => setRegistration((prevState) =>({...prevState, pass: value})) }
                     secureTextEntry={seePass}
-                                onFocus={inputFocus}
+                                onFocus={() => {
+                                        setActiveInput('pass');
+                                        setIsShowKeyboard(true)
+                                }}
                                 placeholderTextColor ='#BDBDBD'  
                             />
                     <Text style={{ ...styles.seePass, right :32}} onPress ={()=> useSeePass(false)} >Показати</Text>
@@ -91,8 +85,9 @@ export default function LoginScreen() {
             <TouchableOpacity style={{...styles.submitBtn, width: width -32}} activeOpacity={0.7} onPress ={submit}>
                 <Text style={styles.submitTitle}>Зареєструватися</Text>
             </TouchableOpacity>
-                <Text style={styles.askLogo}>Нема аккаунта? Зереєструватись</Text>
-                
+                 <View>
+                        <Text onPress={() => { navigation.navigate('registr') }} style={styles.askLogo}>Нема аккаунта? Зереєструватись  </Text>
+                    </View>
                 </View>
                 </ImageBackground>
             </TouchableWithoutFeedback>
@@ -122,6 +117,7 @@ const styles = StyleSheet.create({
         gap:16,
     },
     input: {
+        marginTop:16,
         backgroundColor: '#e8e8e8',
         height: 50,
         borderWidth: 1,
@@ -150,7 +146,7 @@ const styles = StyleSheet.create({
     },
     seePass: {
         position: 'absolute',
-        top:16,
+        top:30,
     }, 
     image: {
         flex: 1,

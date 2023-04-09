@@ -11,13 +11,13 @@ import {
     TouchableWithoutFeedback,
     Dimensions,
     Image,
-    ImageBackground
+    ImageBackground,
 } from "react-native"
 import * as ImagePicker from 'expo-image-picker';
 
 const deleteAvatar = null;
 
-export default function RegistrationScreen() {
+export default function RegistrationScreen({navigation}) {
     const [image, setImage] = useState(deleteAvatar)
     
     const pickImage = async (e) => {
@@ -42,7 +42,6 @@ export default function RegistrationScreen() {
         }
     
     const width = Dimensions.get('window').width;
-    const height = Dimensions.get('window').height;
 
     const [isShowKeyboard, setIsShowKeyboard] = useState(false)
 
@@ -69,16 +68,20 @@ export default function RegistrationScreen() {
     }
 
     const submit = () => {
+        setActiveInput('')
         Keyboard.dismiss()
         setIsShowKeyboard(false)
         console.log(registration)
-        setRegistration(intialRegistration)
+        setRegistration({
+        login: '',
+        email: '', 
+        pass: '',})
     }
  
     return (
         <TouchableWithoutFeedback onPress={() => { closeKeyboard() }}>
       <ImageBackground style={styles.image} source={require('../assets/images/PhotoBG.jpg')} >
-        <View style={{...styles.container, flex: isShowKeyboard ? height * 0.8 : height * 0.67}}>
+        <View style={{...styles.container, flex: isShowKeyboard ? 0.8 : 0.67}}>
                 <View style={{ ...styles.photoContainer, left: (width - 120) / 2 }}>
                     <TouchableOpacity  onPress={pickImage} style={styles.iconContainer}>
                     {image && <Image source={{ uri: image }} style={{ width: 120, height: 120, borderRadius:16 }} />}
@@ -100,7 +103,10 @@ export default function RegistrationScreen() {
                             value={registration.login}
                             placeholder='Логін'  
                             onChangeText={(value) => setRegistration((prevState) =>({...prevState, login: value})) }
-                                onFocus={()=>setActiveInput('login')}
+                                onFocus={() => {
+                                        setActiveInput('login');
+                                        setIsShowKeyboard(true)
+                                }}
                                 placeholderTextColor='#BDBDBD'
                             />
             </View>
@@ -109,7 +115,10 @@ export default function RegistrationScreen() {
                         value={registration.email}
                         placeholder='Адреса електронної пошти'
                         onChangeText={(value) => setRegistration((prevState) => ({ ...prevState, email: value }))}
-                                onFocus={()=>setActiveInput('email')}
+                                onFocus={() => {
+                                        setActiveInput('email');
+                                        setIsShowKeyboard(true)
+                                }}
                                 placeholderTextColor ='#BDBDBD'  
                 />
             </View>
@@ -119,7 +128,10 @@ export default function RegistrationScreen() {
                     placeholder='Пароль'  
                     onChangeText={(value) => setRegistration((prevState) =>({...prevState, pass: value})) }
                     secureTextEntry={seePass}
-                                onFocus={()=>setActiveInput('pass')}
+                                    onFocus={() => {
+                                        setActiveInput('pass');
+                                        setIsShowKeyboard(true)
+                                }}
                                 placeholderTextColor ='#BDBDBD'  
                             />
                     <Text style={{ ...styles.seePass, right :32}} onPress ={()=> useSeePass(false)} >Показати</Text>
@@ -128,8 +140,10 @@ export default function RegistrationScreen() {
                 </KeyboardAvoidingView>
             <TouchableOpacity style={{...styles.submitBtn, width: width -32}} activeOpacity={0.7} onPress ={submit}>
                 <Text style={styles.submitTitle}>Зареєструватися</Text>
-            </TouchableOpacity>
-            <Text style={styles.askLogo}>Уже есть аккаунт? Войти</Text>
+                    </TouchableOpacity>
+                    <View>
+                        <Text onPress={() => { navigation.navigate('login') }} style={styles.askLogo}>Вже є акаунт. Увійти </Text>
+                    </View>
                 </View>
                 </ImageBackground>
             </TouchableWithoutFeedback>
@@ -201,7 +215,8 @@ const styles = StyleSheet.create({
     },
     seePass: {
         position: 'absolute',
-        top:16,
+        top: 30,
+        zIndex: 999
     }, 
     iconContainer: {
         zIndex: 999,
