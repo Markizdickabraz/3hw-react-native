@@ -7,15 +7,17 @@ export default function Header() {
 
     return (
         <View style={{...styles.header,shadowOffset:{width: 0, height:0.5}, shadowColor: '#000'}}>
-            <Text style={{...styles.text, paddingTop: (height / 100 * 5.6)}}>Створити публікацію</Text>
-            {/* <Image fadeDuration={0} style={{...styles.logOutIcon, top: (height / 100 * 5.5), right: (width / 100 *10) }} source={require('../../assets/images/log-out.png')} ></Image> */}
+            <Text style={{...styles.text, paddingTop: (height / 100 * 5.6)}}>Публікаціі</Text>
+            <Image fadeDuration={0} style={{...styles.logOutIcon, top: (height / 100 * 5.5), right: (width / 100 *10) }} source={require('../../assets/images/log-out.png')} ></Image>
         </View>
     )
 }
 
 const styles = StyleSheet.create({
     header: {
-        position: 'relative',      
+        position: 'relative', 
+        borderBottomColor: '#E8E8E8',
+        borderBottomWidth: 1,
     },
     logOutIcon: {
         width: 24,

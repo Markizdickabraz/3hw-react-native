@@ -1,14 +1,9 @@
 import { StyleSheet, View, Text } from "react-native";
-import Footer from "../components/post/footer";
-import Header from "../components/post/header";
 
-export default function AddPost() {
+export default function UsersPost() {
     return (
         <View style={styles.body} >
-            <Header />
-            <View>
-            </View>
-            {/* <Footer /> */}
+
         </View>
     )
 }

@@ -1,15 +1,16 @@
 import { createStackNavigator } from '@react-navigation/stack';
-import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import LoginScreen from '../../Screens/LoginScreen';
 import RegistrationScreen from '../../Screens/RegistrationScreen';
 import PostScreen from '../../Screens/PostsScreen';
 import AddPost from '../../Screens/CreatePostsScreen';
-import UserList from '../../Screens/CreatePostsScreen';
-// import IconGrid from '../../assets/images/grid.png'
-  const AuthStack = createStackNavigator();
-  const MainTab = createMaterialBottomTabNavigator();
+import { Image } from 'react-native';
+import UsersPost from '../../Screens/ProfileScreen';
 
-export function useRoute (isAuth) {
+  const AuthStack = createStackNavigator();
+  const MainTab = createBottomTabNavigator();
+  
+  export function useRoute (isAuth) {
   if (!isAuth) {
    return  <AuthStack.Navigator>
       <AuthStack.Screen
@@ -17,7 +18,6 @@ export function useRoute (isAuth) {
         headerTransparent: true,
         headerTitleStyle: {
           color: 'transparent',
-          // use your preferred color code
         }
         }}
         name="login"
@@ -27,25 +27,57 @@ export function useRoute (isAuth) {
             headerTransparent: true,
                 headerTitleStyle: {
             color: 'transparent',
-            // use your preferred color code
           }
                    }}
               name="registr"
               component={RegistrationScreen} />
       </AuthStack.Navigator> 
   }
-  return   <MainTab.Navigator screenOptions={{tabBarLabel: false}}>
+      return <MainTab.Navigator
+            screenOptions={{
+            tabBarShowLabel: false, 
+            abBarStyle: { backgroundColor: 'transparent' }, 
+            headerShown: false,
+      }}
+>
       <MainTab.Screen
-        //   options={{tabBarIcon :()=><Icon size={ 20 } name={ 'cogs' } color={ 'red' }/>}}
           options={{
-              tabBarIcon: ({ focused, size, color }) => {
-            //   <IconGrid name='grid' size={size} color={color}></IconGrid>
-          }}}
+            tabBarIcon: ({size,focused,color}) => {
+              return (
+                  <Image
+                    fadeDuration={0}
+                    style={{width: 40, height: 40}} source={require('../../assets/images/grid.png')} />
+              );
+            },
+          }}
           name='post'
           component={PostScreen}>
           </MainTab.Screen>
-      <MainTab.Screen name='addPost' component={AddPost}></MainTab.Screen>
-    <MainTab.Screen name='user' component={UserList}></MainTab.Screen>
+      <MainTab.Screen
+          options={{
+            tabBarIcon: ({size,focused,color}) => {
+                  return (
+                           <Image
+                    fadeDuration={0}
+                    style={{width: 70, height: 40}} source={require('../../assets/images/new.png')} />
+              );
+            },
+          }}
+          name='addPost'
+          component={AddPost}>
+          </MainTab.Screen>
+      <MainTab.Screen
+          options={{
+            tabBarIcon: ({size,focused,color}) => {
+              return (
+                  <Image
+                    fadeDuration={0}
+                    style={{width: 40, height: 40}} source={require('../../assets/images/user.png')} />
+              );
+            },
+          }}
+          name='user'
+          component={UsersPost}></MainTab.Screen>
     </MainTab.Navigator>
 }
 

@@ -1,12 +1,10 @@
 import { StyleSheet, View } from "react-native";
-import Footer from "../components/post/footer";
-import Header from "../components/post/header";
+import Header from "../components/Posts/header";
 
 export default function PostScreen() {
     return (
         <View style={styles.body} >
             <Header />
-            {/* <Footer /> */}
         </View>
     )
 }
